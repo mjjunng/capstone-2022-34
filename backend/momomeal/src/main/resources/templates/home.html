@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <h3>모두모아 한끼</h3>
+        <th:block th:if="${logcheck == false}">
+            <input type="text" id="id" name="id" placeholder="아이디 또는 이메일 주소"><br>
+            <input type="text" id="pwd" name="pwd" placeholder="비밀번호"><br>
+            <p>
+                <a href="/members/new">회원 가입</a>
+                <a href="/members">회원 목록</a>
+                <a href="/home/toLogin">로그인</a>
+            </p>
+        </th:block>
+        <th:block th:if="${logcheck == true}">
+            <h1>환영합니다!</h1>
+            <p>
+                <a href="/profile/home">마이 프로필</a>
+            </p>
+        </th:block>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

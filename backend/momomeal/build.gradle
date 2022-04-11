@@ -22,11 +22,37 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+
+  implementation 'junit:junit:4.13.1'
+  compileOnly 'org.projectlombok:lombok'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'mysql:mysql-connector-java'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'mysql:mysql-connector-java'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+	//jdbc
+	implementation group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.7.0'
+	//implementation group: 'org.springframework', name: 'spring-jdbc'
+	implementation 'org.apache.tomcat:tomcat-jdbc:10.0.17'
+
+	//html
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+
+
+
+
+	implementation 'mysql:mysql-connector-java'
+
+	// websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 }
 
 tasks.named('test') {

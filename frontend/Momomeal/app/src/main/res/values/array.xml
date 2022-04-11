@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spn_categoty_array">
+        <item>치킨</item>
+        <item>피자</item>
+        <item>한식</item>
+        <item>중식</item>
+        <item>일식</item>
+        <item>양식</item>
+        <item>분식</item>
+        <item>야식</item>
+        <item>족발&amp;보쌈</item>
+        <item>카페&amp;디저트</item>
+        <item>패스트푸드</item>
+    </string-array>
+
+    <string-array name="spn_max_capacity_array">
+        <item>2명</item>
+        <item>3명</item>
+        <item>4명</item>
+    </string-array>
+</resources>
