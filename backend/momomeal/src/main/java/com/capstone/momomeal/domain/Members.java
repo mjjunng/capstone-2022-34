@@ -22,25 +22,25 @@ public class Members {
 
     private String pwd;
     @NotNull
-    @Column(
-            name = "real_name"
-    )
+    @Column(name = "real_name")
     private String realName;
-    @Column(
-            name = "age"
-    )
+
+    @Column(name = "age")
     private Integer age;
-    @Column(
-            name = "phone_number"
-    )
+
+    @Column(name = "phone_number")
     private String phone_number;
-    @Column(
-            name = "img_dc"
-    )
+
+    @Column(name = "img_dc")
     private String img;
-    @Column(
-            name = "user_rate"
-    )
+
+    @Column(name = "x_value")
+    private double x_value;
+
+    @Column(name = "y_value")
+    private double y_value;
+
+    @Column(name = "user_rate")
     private Float user_rate;
     @OneToMany(
             mappedBy = "member"
@@ -153,6 +153,10 @@ public class Members {
         this.user_rate = user_rate;
     }
 
+    public void setX_value(double x_value) {this.x_value = x_value;}
+
+    public void setY_value(double y_value) {this.y_value = y_value; }
+
     public void setJoinedChatRooms(final List<JoinedChatRoom> joinedChatRooms) {
         this.joinedChatRooms = joinedChatRooms;
     }
@@ -196,6 +200,10 @@ public class Members {
     public Float getUser_rate() {
         return this.user_rate;
     }
+
+    public double getX_value() {return x_value; }
+
+    public double getY_value() {return y_value; }
 
     public List<JoinedChatRoom> getJoinedChatRooms() {
         return this.joinedChatRooms;
