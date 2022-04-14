@@ -29,16 +29,24 @@ public class ChatRoomApiController {
     private final MemberService memberService;
     private final JoinedChatRoomService joinedChatRoomService;
 
-    @PostMapping({"/chat"})
-    public ChatRoomApiController.CreateChatRoomResponse saveChatRoom(@RequestBody @Valid ChatRoomRequestDTO requestDTO) {
-        Optional<Members> getMember = this.memberService.findEmail(requestDTO.getHostId());
-        ChatRoomApiController.CreateChatRoomResponse result;
-        if (getMember.isPresent()) {
-            Members member = (Members)getMember.get();
-            Long createChatRoomId = this.chatRoomService.createChatRoom(member, requestDTO);
-            result = new ChatRoomApiController.CreateChatRoomResponse(createChatRoomId);
-        } else {
-            result = new ChatRoomApiController.CreateChatRoomResponse();
+    /**
+     * 채팅방 생성 응답 api
+     * @param requestDTO 안드로이드에서 받은 채팅방 데이터
+     * @return 생성한 채팅방(ChatRoom) id값
+     */
+    @PostMapping("/chat")
+    public CreateChatRoomResponse saveChatRoom(@RequestBody @Valid ChatRoomRequestDTO requestDTO) {
+        CreateChatRoomResponse result;
+        // 현재 회원 데이터 가져오기
+        Optional<Members> getMember = memberService.findById(requestDTO.getHostId());
+
+        if (getMember.isPresent()){
+            Members member = getMember.get();
+            // 채팅방 생성
+            Long createChatRoomId = chatRoomService.createChatRoom(member, requestDTO);
+            result = new CreateChatRoomResponse(createChatRoomId);
+        } else{
+            result = new CreateChatRoomResponse();
         }
 
         return result;
@@ -251,8 +259,27 @@ public class ChatRoomApiController {
             return this.chatRoomId;
         }
 
-        public String getTitle() {
-            return this.title;
+    /**
+     * 호스트가 아닌 사용자의 채팅방 참여 응답 api
+     * 해당 채팅방 멤버에 해당 사용자 추가함
+     */
+    @GetMapping("/chat/{memberId}/{chatroomId}")
+    public CreateJoinedChatRoomResponse enterChatRoom(@PathVariable Long memberId,
+                                                      @PathVariable Long chatroomId){
+
+        CreateJoinedChatRoomResponse result;
+        // id값으로 회원 객체 가져오기
+        Optional<Members> getMember = memberService.findById(memberId);
+        // id값으로 채팅방 객체 가져오기
+        ChatRoom findChatRoom = chatRoomService.findById(chatroomId);
+
+        // joinedChatRoom 생성
+        if (getMember.isPresent()){
+            Members findMember = getMember.get();
+            Long joinedChatRoomId = joinedChatRoomService.createJoinedChatRoom(findMember, findChatRoom);
+            result = new CreateJoinedChatRoomResponse(joinedChatRoomId);
+        } else {
+            result = new CreateJoinedChatRoomResponse();
         }
 
         public String getCategory() {
@@ -263,13 +290,18 @@ public class ChatRoomApiController {
             return this.maxCapacity;
         }
 
-        public String getStoreName() {
-            return this.storeName;
-        }
+    /**
+     * 채팅방 삭제 응답 api - 참여한 채팅방(JoinedChatRoom) 삭제 - 연관관계 모두 삭제해야 함
+     * @param chatroomId 삭제하려는 joinedChatRoom와 연관된 chatRoom id
+     * @return deleteCountDto: 삭제한 joinedChatRoom 레코드 수, 삭제한 chatRoom 레코드 수
+     */
+    @DeleteMapping("/deleted-chat/{memberId}/{chatroomId}")
+    public deleteCountDto deleteJoinedChatRoom(@PathVariable Long memberId,
+                                               @PathVariable Long chatroomId){
+        deleteCountDto result;
 
-        public String getPickupPlaceName() {
-            return this.pickupPlaceName;
-        }
+        Optional<Members> getMember = memberService.findById(memberId);
+        ChatRoom chatRoom = chatRoomService.findById(chatroomId);
 
         public double getPickupPlaceXCoord() {
             return this.pickupPlaceXCoord;
@@ -439,29 +471,9 @@ public class ChatRoomApiController {
             this.id = id;
         }
 
-        public boolean equals(final Object o) {
-            if (o == this) {
-                return true;
-            } else if (!(o instanceof ChatRoomApiController.CreateChatRoomResponse)) {
-                return false;
-            } else {
-                ChatRoomApiController.CreateChatRoomResponse other = (ChatRoomApiController.CreateChatRoomResponse)o;
-                if (!other.canEqual(this)) {
-                    return false;
-                } else {
-                    Object this$id = this.getId();
-                    Object other$id = other.getId();
-                    if (this$id == null) {
-                        if (other$id != null) {
-                            return false;
-                        }
-                    } else if (!this$id.equals(other$id)) {
-                        return false;
-                    }
-
-                    return true;
-                }
-            }
+        // joinedChatRooms에서 멤버의 이름 뽑아낸다.
+        for (JoinedChatRoom joinedChatRoom : joinedChatRooms) {
+            memberNameList.add(joinedChatRoom.getMember().getRealName());
         }
 
         protected boolean canEqual(final Object other) {

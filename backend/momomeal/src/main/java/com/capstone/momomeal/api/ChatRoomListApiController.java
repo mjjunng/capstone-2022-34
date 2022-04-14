@@ -29,8 +29,21 @@ public class ChatRoomListApiController {
     private final ChatRoomService chatRoomService;
     private final MemberService memberService;
 
-    @GetMapping({"/chat-list/{categoryName}/{memberId}"})
-    public ResponseEntity returnCategoryList(@PathVariable String categoryName, @PathVariable String memberId) {
+
+    /**
+     * 사용자가 참여한 채팅방 제외한 해당 카테고리별 채팅방 데이터(dto) 전송 api
+     * @param categoryName 사용자가 선택한 카테고리명
+     * @param memberId 현재 접속한 사용자 id
+     * @param type 시간 순 or 거리 순
+     *             시간 순 - 채팅 생성일이 느린 순으로
+     *             거리 순 - 현재 사용자의 위치와 가까운 수령장소를 가진 채팅방이 우선순위
+     * @return 해당 카테고리에 해당하는 모든 채팅방 dto 리스트 Body에 담은 ResponseEntity
+     */
+    @GetMapping("/chat-list/{categoryName}/{memberId}/{type}")
+    public ResponseEntity returnCategoryList(@PathVariable String categoryName,
+                                             @PathVariable Long memberId,
+                                             @PathVariable String type){
+        // string -> Category enum 타입 변환
         TransStringToEnum te = new TransStringToEnum();
         Category selectedCategory = te.transferStringToEnum(categoryName);
         List<ChatRoom> chatRooms = this.getChatRoomsExceptParticipatedCharRooms(memberId);
@@ -86,10 +99,24 @@ public class ChatRoomListApiController {
             List<ChatRoom> chatRooms = new ArrayList();
             Iterator var7 = joinedChatRooms.iterator();
 
-            while(var7.hasNext()) {
-                JoinedChatRoom joinedChatRoom = (JoinedChatRoom)var7.next();
-                chatRooms.add(joinedChatRoom.getChatRoom());
-            }
+    /**
+     * 사용자가 참여한 채팅방 제외한 모든 채팅방 데이터(dto) 전송 api
+     * @param memberId 현재 접속한 사용자 id
+     * @param type 시간 순 or 거리 순
+     *             시간 순 - 채팅 생성일이 느린 순으로
+     *             거리 순 - 현재 사용자의 위치와 가까운 수령장소를 가진 채팅방이 우선순위
+     * @return 모든 채팅방의 dto 리스트 Body에 담은 ResponseEntity
+     */
+    @GetMapping("/chat-list/{memberId}/{type}")
+    public ResponseEntity returnAllList(@PathVariable Long memberId,
+                                        @PathVariable String type) {
+
+        // 모든 채팅방 가져옴
+        // 참여한 채팅 제외한 모든 채팅방
+        List<ChatRoom> chatRooms = new ArrayList<>();
+        if (type.equals("time")){
+            chatRooms = getChatRoomsExceptParticipatedCharRooms(memberId, "time");
+        } else{
 
             if (chatRooms.size() > 1) {
                 result = (List)chatRooms.stream().map((c) -> {
@@ -106,18 +133,17 @@ public class ChatRoomListApiController {
         this.memberService = memberService;
     }
 
-    static class EnteredChatRoomListDto {
-        private Long chatRoomId;
-        private String title;
+    // 참여한 채팅 제외한 모든 채팅방 리턴
+    private List<ChatRoom> getChatRoomsExceptParticipatedCharRooms(Long testMemberId,
+                                                                   String type) {
 
-        public EnteredChatRoomListDto(ChatRoom chatRoom) {
-            this.chatRoomId = chatRoom.getId();
-            this.title = chatRoom.getTitle();
-        }
-
-        public Long getChatRoomId() {
-            return this.chatRoomId;
-        }
+        List<ChatRoom> chatRooms = new ArrayList<>();
+        // 사용자가 이미 참여한 채팅 거르기 위해 사용자가 참여한 채팅방 id(ChatRoomId)값이 필요
+        Optional<Members> getMember = memberService.findById(testMemberId);
+        if (getMember.isPresent()){
+            Members member = getMember.get();
+            List<JoinedChatRoom> joinedChatRooms = member.getJoinedChatRooms(); // 참여한 joinedChatRooms
+            List<Long> participatedChatRoomIds = new ArrayList<>();    // 참여한 chatRoomIds
 
         public String getTitle() {
             return this.title;
@@ -214,13 +240,14 @@ public class ChatRoomListApiController {
             return this.title;
         }
 
-        public String getPickupPlaceName() {
-            return this.pickupPlaceName;
-        }
+    @GetMapping("/entered-chat-list/{memberId}")
+    public ResponseEntity returnEnteredChatRoomList(@PathVariable Long memberId){
+        List<EnteredChatRoomListDto> result = new ArrayList<>();
 
-        public LocalDateTime getCreatedDate() {
-            return this.createdDate;
-        }
+        Optional<Members> getMember = memberService.findById(memberId);
+        if (getMember.isPresent()){
+            Members member = getMember.get();
+            List<JoinedChatRoom> joinedChatRooms = member.getJoinedChatRooms();
 
         public double getPickupPlaceXCoord() {
             return this.pickupPlaceXCoord;

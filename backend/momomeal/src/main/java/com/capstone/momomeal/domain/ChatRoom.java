@@ -23,7 +23,7 @@ public class ChatRoom extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
     private String title;
-    private String hostId;
+    private Long hostId;
     private int maxCapacity;
     private String storeName;
     private String pickupPlaceName;
@@ -60,32 +60,9 @@ public class ChatRoom extends BaseTimeEntity {
         return this.title;
     }
 
-    public String getHostId() {
-        return this.hostId;
-    }
-
-    public int getMaxCapacity() {
-        return this.maxCapacity;
-    }
-
-    public String getStoreName() {
-        return this.storeName;
-    }
-
-    public String getPickupPlaceName() {
-        return this.pickupPlaceName;
-    }
-
-    public double getPickupPlaceXCoord() {
-        return this.pickupPlaceXCoord;
-    }
-
-    public double getPickupPlaceYCoord() {
-        return this.pickupPlaceYCoord;
-    }
-
-    public ChatRoom(final Long id, final Category category, final String title, final String hostId, final int maxCapacity, final String storeName, final String pickupPlaceName, final double pickupPlaceXCoord, final double pickupPlaceYCoord) {
-        this.id = id;
+    public ChatRoom(Category category, String title, Long hostId, int maxCapacity,
+                    String storeName, String pickupPlaceName, double pickupPlaceXCoord,
+                    double pickupPlaceYCoord) {
         this.category = category;
         this.title = title;
         this.hostId = hostId;
