@@ -1,6 +1,5 @@
 package com.capstone.momomeal.repository;
 
-
 import com.capstone.momomeal.domain.MemberForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

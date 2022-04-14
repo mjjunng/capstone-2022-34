@@ -1,3 +1,4 @@
+
 package com.capstone.momomeal.service;
 
 import com.capstone.momomeal.domain.Members;
@@ -57,7 +58,6 @@ public class MemberService {
     )
     public Optional<Members> Login(String email, String pwd) {
         return this.memberRepository.findIdAndPwd(email, pwd);
-
     }
 
     public Boolean updateUser(Long userId, String email, String RealName){

@@ -1,8 +1,6 @@
 package com.capstone.momomeal.domain;
 
 import com.capstone.momomeal.domain.Status.RateStatus;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "members")
 public class Members {
     @Id
@@ -224,6 +220,5 @@ public class Members {
     public String toString() {
         Long var10000 = this.getUser_id();
         return "Members(user_id=" + var10000 + ", email=" + this.getEmail() + ", pwd=" + this.getPwd() + ", realName=" + this.getRealName() + ", age=" + this.getAge() + ", phone_number=" + this.getPhone_number() + ", img=" + this.getImg() + ", user_rate=" + this.getUser_rate() + ", joinedChatRooms=" + this.getJoinedChatRooms() + ", memberReview=" + this.getMemberReview() + ", recommendMenu=" + this.getRecommendMenu() + ")";
-
     }
 }
