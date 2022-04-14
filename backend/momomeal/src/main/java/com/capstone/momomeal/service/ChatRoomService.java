@@ -40,10 +40,14 @@ public class ChatRoomService {
         Category category = te.transferStringToEnum(requestDTO.getCategoryName());
 
         // 채팅방 생성
-        ChatRoom chatRoom = new ChatRoom(category, requestDTO.getTitle(), requestDTO.getHostId(),
-                requestDTO.getMaxCapacity(), requestDTO.getStoreName(), requestDTO.getPickupPlaceName(),
-                requestDTO.getPickupPlaceXCoord(), requestDTO.getPickupPlaceYCoord());
+//        ChatRoom chatRoom = new ChatRoom(category, requestDTO.getTitle(), requestDTO.getHostId(),
+//                requestDTO.getMaxCapacity(), requestDTO.getStoreName(), requestDTO.getPickupPlaceName(),
+//                requestDTO.getPickupPlaceXCoord(), requestDTO.getPickupPlaceYCoord());
 
+
+        ChatRoom chatRoom = new ChatRoom(category, requestDTO.getTitle(),requestDTO.getHostId(),
+                requestDTO.getMaxCapacity(),requestDTO.getStoreName(), requestDTO.getPickupPlaceName(),
+                requestDTO.getPickupPlaceXCoord(),requestDTO.getPickupPlaceYCoord());
         save(chatRoom);
 
         // 참여 채팅방 생성하고 현재 회원과 연관관계 설정
