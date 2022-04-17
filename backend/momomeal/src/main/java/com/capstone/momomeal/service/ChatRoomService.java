@@ -34,20 +34,15 @@ public class ChatRoomService {
      * @return 생성한 채팅방(ChatRoom) id값
      */
     @Transactional
-    public Long createChatRoom(Members member, ChatRoomRequestDTO requestDTO){
+    public Long createChatRoom(Members member, ChatRoomRequestDTO requestDTO, int distance){
         // string -> Category enum 타입 변환
         TransStringToEnum te = new TransStringToEnum();
         Category category = te.transferStringToEnum(requestDTO.getCategoryName());
 
         // 채팅방 생성
-//        ChatRoom chatRoom = new ChatRoom(category, requestDTO.getTitle(), requestDTO.getHostId(),
-//                requestDTO.getMaxCapacity(), requestDTO.getStoreName(), requestDTO.getPickupPlaceName(),
-//                requestDTO.getPickupPlaceXCoord(), requestDTO.getPickupPlaceYCoord());
+        ChatRoom chatRoom = new ChatRoom(category, requestDTO.getTitle(), requestDTO.getHostId(),
+                requestDTO.getMaxCapacity(), requestDTO.getStoreName(), requestDTO.getPickupPlaceName(), distance);
 
-
-        ChatRoom chatRoom = new ChatRoom(category, requestDTO.getTitle(),requestDTO.getHostId(),
-                requestDTO.getMaxCapacity(),requestDTO.getStoreName(), requestDTO.getPickupPlaceName(),
-                requestDTO.getPickupPlaceXCoord(),requestDTO.getPickupPlaceYCoord());
         save(chatRoom);
 
         // 참여 채팅방 생성하고 현재 회원과 연관관계 설정
@@ -70,12 +65,20 @@ public class ChatRoomService {
         return chatRoomRepository.findAllOrderByTime();
     }
 
+    public List<ChatRoom> findAllOrderByDistance() {
+        return chatRoomRepository.findAllOrderByDistance();
+    }
+
     public List<ChatRoom> findExceptParticipatedChatRoom(List<Long> participatedChatRoomIds){
         return chatRoomRepository.findExceptParticipatedChatRoom(participatedChatRoomIds);
     }
 
     public List<ChatRoom> findExceptParticipatedChatRoomOrderByTime(List<Long> participatedChatRoomIds){
         return chatRoomRepository.findExceptParticipatedChatRoomOrderByTime(participatedChatRoomIds);
+    }
+
+    public List<ChatRoom> findExceptParticipatedChatRoomOrderByDistance(List<Long> participatedChatRoomIds){
+        return chatRoomRepository.findExceptParticipatedChatRoomOrderByDistance(participatedChatRoomIds);
     }
 
 
