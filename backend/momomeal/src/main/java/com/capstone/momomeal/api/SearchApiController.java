@@ -37,16 +37,14 @@ public class SearchApiController {
         private String title;
         private String pickupPlaceName;
         private LocalDateTime createdDate;
-        private double pickupPlaceXCoord;
-        private double pickupPlaceYCoord;
+        private int distance;
 
         public ChatRoomListDto(ChatRoom chatRoom) {
             this.id = chatRoom.getId();
             this.title = chatRoom.getTitle();
             this.pickupPlaceName = chatRoom.getPickupPlaceName();
             this.createdDate = chatRoom.getCreatedDate();
-            this.pickupPlaceXCoord = chatRoom.getPickupPlaceXCoord();
-            this.pickupPlaceYCoord = chatRoom.getPickupPlaceYCoord();
+            this.distance = getDistance();
         }
     }
 }

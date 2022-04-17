@@ -41,6 +41,9 @@ dependencies {
 	//html
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+	// stomp
+	implementation group: 'org.webjars', name: 'stomp-websocket', version: '2.3.3-1'
+
 
 
 

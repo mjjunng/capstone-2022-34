@@ -12,12 +12,6 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 public class MomomealApplication {
 
 	public static void main(String[] args) {
-
-//		@Bean
-//		public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
-//			return new HiddenHttpMethodFilter();
-//		}
-
 		SpringApplication.run(MomomealApplication.class, args);
 	}
 

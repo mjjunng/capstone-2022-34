@@ -36,6 +36,12 @@ public class ChatRoomRepository {
                 .getResultList();
     }
 
+    public List<ChatRoom> findAllOrderByDistance(){
+        return em.createQuery("select cr from ChatRoom cr " +
+                "order by cr.distance", ChatRoom.class)
+                .getResultList();
+    }
+
     public List<ChatRoom> findExceptParticipatedChatRoom(List<Long> participatedChatRoomIds){
         return em.createQuery("select cr from ChatRoom cr" +
                         " where cr.id not in :ids", ChatRoom.class)
@@ -50,6 +56,14 @@ public class ChatRoomRepository {
                 .setParameter("ids", participatedChatRoomIds)
                 .getResultList();
 
+    }
+
+    public List<ChatRoom> findExceptParticipatedChatRoomOrderByDistance(List<Long> participatedChatRoomIds){
+        return em.createQuery("select cr from ChatRoom cr " +
+                "where cr.id not in :ids " +
+                "order by cr.distance", ChatRoom.class)
+                .setParameter("ids", participatedChatRoomIds)
+                .getResultList();
     }
 
     public int deleteById(Long chatRoomId){

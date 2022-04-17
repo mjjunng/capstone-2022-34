@@ -36,14 +36,45 @@ public class ChatRoomApiController {
 
         if (getMember.isPresent()){
             Members member = getMember.get();
+            // 사용자의 현재 위치와 수령 장소까지의 거리
+            int distance =calculateDistance(member.getX_value(), member.getY_value(),
+                    requestDTO.getPickupPlaceXCoord(), requestDTO.getPickupPlaceYCoord());
+
             // 채팅방 생성
-            Long createChatRoomId = chatRoomService.createChatRoom(member, requestDTO);
+            Long createChatRoomId = chatRoomService.createChatRoom(member, requestDTO, distance);
             result = new CreateChatRoomResponse(createChatRoomId);
         } else{
             result = new CreateChatRoomResponse();
         }
 
         return result;
+    }
+
+    // 사용자의 현재 위치와 수령 장소까지의 거리 계산 메서드
+    public int calculateDistance(double memberX, double memberY, double placeX, double placeY){
+        double x = Math.cos(Math.toRadians(memberX) * 6400 * 2 * 3.14 / 360) * Math.abs(memberY - placeY);
+        double y = 111 * Math.abs(memberX - placeX);
+
+        double theta = memberY - placeY;
+        double dist = Math.sin(deg2rad(memberX)) * Math.sin(deg2rad(placeX)) + Math.cos(deg2rad(memberX))
+                    * Math.cos(deg2rad(placeX)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist *= 60 * 1.1515 * 1609.344;
+
+        return (int) dist;
+
+    }
+
+    // converts decimal degrees to radians
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    // converts radians to decimal degrees
+    private double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 
 
@@ -93,8 +124,7 @@ public class ChatRoomApiController {
         private int maxCapacity;
         private String storeName;
         private String pickupPlaceName;
-        private double pickupPlaceXCoord;
-        private double pickupPlaceYCoord;
+        private int distance;
 
         public ClickedChatRoomDto(ChatRoom chatRoom) {
             this.chatRoomId = chatRoom.getId();
@@ -103,8 +133,7 @@ public class ChatRoomApiController {
             this.maxCapacity = chatRoom.getMaxCapacity();
             this.storeName = chatRoom.getStoreName();
             this.pickupPlaceName = chatRoom.getPickupPlaceName();
-            this.pickupPlaceXCoord = chatRoom.getPickupPlaceXCoord();
-            this.pickupPlaceYCoord = chatRoom.getPickupPlaceYCoord();
+            this.distance = chatRoom.getDistance();
         }
 
     }

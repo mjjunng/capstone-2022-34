@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/itemHome">
+
+    <bottom
+        android:id="@+id/itemHome"
+        android:name="com.capstone.momomeal.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" />
+    <bottom
+        android:id="@+id/itemChatRoom"
+        android:name="com.capstone.momomeal.ChatroomFragment"
+        android:label="MovieSearchFragment"
+        tools:layout="@layout/fragment_chatroom" />
+    <bottom
+        android:id="@+id/itemMypage"
+        android:name="com.capstone.momomeal.MypageFragment"
+        android:label="SettingFragment"
+        tools:layout="@layout/fragment_mypage" />
+</navigation>
