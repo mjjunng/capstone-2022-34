@@ -15,7 +15,6 @@ import java.util.Optional;
 public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
     private final JoinedChatRoomService joinedChatRoomService;
-    private final RecommendCategoryService recommendCategoryService;
 
     /**
      * 채팅방 저장 메서드
@@ -50,12 +49,6 @@ public class ChatRoomService {
         JoinedChatRoom joinedChatRoom = new JoinedChatRoom(chatRoom, MemberStatus.HOST);
         joinedChatRoom.setMember(member);
         joinedChatRoomService.save(joinedChatRoom);
-
-        // 해당 사용자가 참여한 채팅방의 카테고리 가중치 증가
-        RecommendCategory recommendCategory = member.getRecommendCategory();
-        if (recommendCategory != null){
-            recommendCategoryService.addValue(recommendCategory, requestDTO.getCategoryName(), 1);
-        }
         return chatRoom.getId();
 
     }
@@ -86,10 +79,6 @@ public class ChatRoomService {
 
     public List<ChatRoom> findExceptParticipatedChatRoomOrderByDistance(List<Long> participatedChatRoomIds){
         return chatRoomRepository.findExceptParticipatedChatRoomOrderByDistance(participatedChatRoomIds);
-    }
-
-    public List<ChatRoom> findByCategoryIn(List<Category> categories, List<Long> participatedChatRoomIds){
-        return chatRoomRepository.findByCategoryIn(categories, participatedChatRoomIds);
     }
 
 

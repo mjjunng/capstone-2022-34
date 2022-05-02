@@ -1,6 +1,9 @@
 package com.capstone.momomeal.service;
 
-import com.capstone.momomeal.domain.*;
+import com.capstone.momomeal.domain.ChatRoom;
+import com.capstone.momomeal.domain.JoinedChatRoom;
+import com.capstone.momomeal.domain.MemberStatus;
+import com.capstone.momomeal.domain.Members;
 import com.capstone.momomeal.repository.JoinedChatRoomRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -15,7 +18,6 @@ import java.util.List;
 @Transactional
 public class JoinedChatRoomService {
     private final JoinedChatRoomRepository joinedChatRoomRepository;
-    private final RecommendCategoryService recommendCategoryService;
 
 
     /**
@@ -30,7 +32,7 @@ public class JoinedChatRoomService {
 
 
     /**
-     * 호스트가 아닌 사용자가 해당 채팅방에 참여하는 메서드
+     * 참여한 채팅방 생성 메서드 - 호스트가 아닌 사용자가 해당 채팅방에 참여하는 메서드이다.
      * @param member 참여 요청을 한 member
      * @param chatRoom member가 참여하려는 chatRoom
      * @return 생성한 joinedChatRoom id
@@ -39,12 +41,6 @@ public class JoinedChatRoomService {
         JoinedChatRoom joinedChatRoom = new JoinedChatRoom(chatRoom, MemberStatus.MEMBER);
         joinedChatRoom.setMember(member);
         save(joinedChatRoom);
-
-        // 해당 사용자가 참여한 채팅방의 카테고리 가중치 증가
-        RecommendCategory recommendCategory = member.getRecommendCategory();
-        if (recommendCategory != null){
-            recommendCategoryService.addValue(recommendCategory, chatRoom.getCategory().getName(), 1);
-        }
         return joinedChatRoom.getId();
 
     }
@@ -68,11 +64,9 @@ public class JoinedChatRoomService {
         return joinedChatRoomRepository.findByMemberIdAndChatRoomId(member, chatRoom);
     }
 
-    @Transactional(readOnly = true)
     public List<JoinedChatRoom> findByChatRoom(ChatRoom chatRoom){
         return joinedChatRoomRepository.findByChatRoom(chatRoom);
     }
-
 
     public int countByChatRoom(ChatRoom chatRoom){
         int cnt = 0;

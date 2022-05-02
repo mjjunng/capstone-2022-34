@@ -1,8 +1,6 @@
 package com.capstone.momomeal.domain;
 
 import com.capstone.momomeal.domain.Status.RateStatus;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Table(name = "members")
 public class Members {
     @Id
@@ -26,29 +22,27 @@ public class Members {
 
     private String pwd;
     @NotNull
-    @Column(
-            name = "real_name"
-    )
+    @Column(name = "real_name")
     private String realName;
-    @Column(
-            name = "age"
-    )
+
+    @Column(name = "age")
     private Integer age;
-    @Column(
-            name = "phone_number"
-    )
+
+    @Column(name = "phone_number")
     private String phone_number;
-    @Column(
-            name = "img_dc"
-    )
+
+    @Column(name = "img_dc")
     private String img;
-    @Column(
-            name = "user_rate"
-    )
+
+    @Column(name = "x_value")
+    private double x_value;
+
+    @Column(name = "y_value")
+    private double y_value;
+
+    @Column(name = "user_rate")
     private Float user_rate;
 
-    private double x_value;
-    private double y_value;
     @OneToMany(
             mappedBy = "member"
     )
@@ -58,11 +52,11 @@ public class Members {
             cascade = {CascadeType.ALL}
     )
     private List<MemberReview> memberReview;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "recommend_category_id")
-    private RecommendCategory recommendCategory;
-
+//    @OneToMany(
+//            mappedBy = "member",
+//            cascade = {CascadeType.ALL}
+//    )
+//    private List<Menu> menuList = new ArrayList();
 
     public Members() {
     }
@@ -71,7 +65,6 @@ public class Members {
         this.memberReview.add(memberReview);
         memberReview.setMember(this);
     }
-
 
     public static Members createMember(Members members, MemberReview... memberReview) {
         Members member = new Members();
@@ -156,6 +149,10 @@ public class Members {
         this.user_rate = user_rate;
     }
 
+    public void setX_value(double x_value) {this.x_value = x_value;}
+
+    public void setY_value(double y_value) {this.y_value = y_value; }
+
     public void setJoinedChatRooms(final List<JoinedChatRoom> joinedChatRooms) {
         this.joinedChatRooms = joinedChatRooms;
     }
@@ -164,9 +161,6 @@ public class Members {
         this.memberReview = memberReview;
     }
 
-    public void setRecommendCategory(RecommendCategory recommendCategory){
-        this.recommendCategory = recommendCategory;
-    }
     public Long getUser_id() {
         return this.user_id;
     }
@@ -199,6 +193,10 @@ public class Members {
         return this.user_rate;
     }
 
+    public double getX_value() {return x_value; }
+
+    public double getY_value() {return y_value; }
+
     public List<JoinedChatRoom> getJoinedChatRooms() {
         return this.joinedChatRooms;
     }
@@ -210,7 +208,6 @@ public class Members {
 
     public String toString() {
         Long var10000 = this.getUser_id();
-        return "Members(user_id=" + var10000 + ", email=" + this.getEmail() + ", pwd=" + this.getPwd() + ", realName=" + this.getRealName() + ", age=" + this.getAge() + ", phone_number=" + this.getPhone_number() + ", img=" + this.getImg() + ", user_rate=" + this.getUser_rate() + ", joinedChatRooms=" + this.getJoinedChatRooms() + ", memberReview=" + this.getMemberReview() + ")";
-
+        return "Members(user_id=" + var10000 + ", email=" + this.getEmail() + ", pwd=" + this.getPwd() + ", realName=" + this.getRealName() + ", age=" + this.getAge() + ", phone_number=" + this.getPhone_number() + ", img=" + this.getImg() + ", user_rate=" + this.getUser_rate() + ", joinedChatRooms=" + this.getJoinedChatRooms() + ", memberReview=" + this.getMemberReview()  + ")";
     }
 }
