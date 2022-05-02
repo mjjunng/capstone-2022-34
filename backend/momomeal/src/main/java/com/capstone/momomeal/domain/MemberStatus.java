@@ -2,5 +2,9 @@
 package com.capstone.momomeal.domain;
 
 public enum MemberStatus {
-    MEMBER, HOST
+    MEMBER,
+    HOST;
+
+    private MemberStatus() {
+    }
 }

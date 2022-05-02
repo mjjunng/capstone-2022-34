@@ -1,3 +1,4 @@
+
 package com.capstone.momomeal.service;
 
 import com.capstone.momomeal.domain.Members;
@@ -57,6 +58,31 @@ public class MemberService {
     )
     public Optional<Members> Login(String email, String pwd) {
         return this.memberRepository.findIdAndPwd(email, pwd);
+    }
 
+    public Boolean updateUser(Long userId, String email, String RealName){
+        try {
+            Members member = memberRepository.findById(userId);
+
+            member.setEmail(email);
+            member.setRealName(RealName);
+//            member.setImg(img);
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Boolean setCoordinate(Long userId, Double x, Double y){
+        try {
+            Members member = memberRepository.findById(userId);
+
+            member.setX_value(x);
+            member.setY_value(y);
+
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }

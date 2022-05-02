@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,10 +15,13 @@ public class HomeFormApiController {
     private final MemoryUserRepository memoryUserRepository;
 
     @ResponseBody
-    @RequestMapping
+    @RequestMapping(value = "checkLogin.do", method = RequestMethod.GET)
     public HashMap<String, Object> checkLogin() {
         HashMap<String, Object> map = new HashMap();
-        map.put("checkdata", this.memoryUserRepository.checkLogin());
+        boolean check = memoryUserRepository.checkLogin();
+        map.put("check", check);
         return map;
     }
+
+
 }

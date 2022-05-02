@@ -1,4 +1,3 @@
-
 package com.capstone.momomeal.api;
 
 import com.capstone.momomeal.domain.*;
@@ -56,9 +55,9 @@ public class ChatRoomListApiController {
 
         // 해당 카테고리의 dto만 뽑음
         List<ChatRoomListDto> result = chatRooms.stream()
-                                        .filter(c -> c.getCategory().equals(selectedCategory))
-                                        .map(c -> new ChatRoomListDto(c))
-                                        .collect(Collectors.toList());
+                .filter(c -> c.getCategory().equals(selectedCategory))
+                .map(c -> new ChatRoomListDto(c))
+                .collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(result);
