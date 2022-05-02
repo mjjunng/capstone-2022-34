@@ -1,3 +1,4 @@
+
 package com.capstone.momomeal.domain;
 import lombok.Data;
 

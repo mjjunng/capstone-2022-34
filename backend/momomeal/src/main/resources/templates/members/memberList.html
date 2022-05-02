@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>비밀번호</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="members : ${listdata}">
+                <td th:text="${members.userid}"></td>
+                <td th:text="${members.pwd}"></td>
+                <td th:text="${members.username}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

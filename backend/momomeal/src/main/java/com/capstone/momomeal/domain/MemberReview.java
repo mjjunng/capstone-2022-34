@@ -21,13 +21,19 @@ public class MemberReview {
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "review_id")
+    @Column(
+            name = "review_id"
+    )
     private Long review_id;
     private String review_text;
     @Enumerated(EnumType.STRING)
     private RateStatus rate;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
+    @JoinColumn(
+            name = "user_id"
+    )
     private Members member;
 
     public MemberReview() {

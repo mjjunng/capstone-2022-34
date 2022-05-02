@@ -27,11 +27,6 @@ public class MemberRepository {
         return Optional.ofNullable(member);
     }
 
-    public Members findById(Long user_id){
-        Members member = em.find(Members.class,user_id);
-        return member;
-    }
-
     public Optional<Members> findEmail(String email) {
         List<Members> result = this.em.createQuery("select m from Members m where m.email = :email", Members.class).setParameter("email", email).getResultList();
         if (result.isEmpty()) {
@@ -51,4 +46,5 @@ public class MemberRepository {
         List<Members> result = this.em.createQuery("select m from Members m", Members.class).getResultList();
         return result;
     }
+
 }
