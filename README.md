@@ -7,6 +7,7 @@
 
 ### 2. 소개 영상
 [![모두모아한끼_Youtube](http://img.youtube.com/vi/Cf2C-XrMcK0/0.jpg)](https://youtu.be/Cf2C-XrMcK0)
+[![Video Label](http://img.youtube.com/vi/Cf2C-XrMcK0/0.jpg)](https://youtu.be/Cf2C-XrMcK0)
 
 ### 3. 팀 소개
 ```markdown
