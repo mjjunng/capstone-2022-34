@@ -6,7 +6,7 @@
 저희는 배달 추가 비용 부담을 덜어주기 위해, 카테고리 기반의 맞춤 채팅방을 통해 근처의 사람들을 모아 공동으로 배달 주문을 할 수 있게 도와주는 서비스를 개발하려고 합니다. 
 
 ### 2. 소개 영상
-[![모두모아한끼_Youtube](http://img.youtube.com/vi/Cf2C-XrMcK0/0.jpg)]([https://youtu.be/Cf2C-XrMcK0](https://www.youtube.com/watch?v=Cf2C-XrMcK0))
+[![모두모아한끼_Youtube](http://img.youtube.com/vi/Cf2C-XrMcK0/0.jpg)](https://youtu.be/'Cf2C-XrMcK0)
 
 ### 3. 팀 소개
 ```markdown
